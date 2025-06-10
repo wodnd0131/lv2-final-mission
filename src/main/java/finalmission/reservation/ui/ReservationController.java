@@ -1,7 +1,6 @@
 package finalmission.reservation.ui;
 
-import finalmission.member.domain.Member;
-import finalmission.member.domain.MemberRepository;
+import finalmission.reservation.application.ReservationCommandService;
 import finalmission.reservation.domain.Reservation;
 import finalmission.reservation.domain.ReservationRepository;
 import finalmission.reservation.ui.dto.ReservationRequest;
@@ -25,7 +24,8 @@ public class ReservationController {
     public static final String BASE_PATH = "/reservation";
 
     private final ReservationRepository reservationRepository;
-    private final MemberRepository memberRepository;
+
+    private final ReservationCommandService reservationCommandService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -38,9 +38,6 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "예약 신청")
     public Reservation add(@RequestBody ReservationRequest request) {
-        Member coach = memberRepository.getById(request.coachId());
-        Member crew = memberRepository.getById(request.crewId());
-        Reservation reservation = Reservation.from(request.date(), request.time(), coach, crew);
-        return reservationRepository.save(reservation);
+        return reservationCommandService.add(request);
     }
 }
