@@ -1,6 +1,8 @@
 package finalmission.common.exception.handler;
 
 import finalmission.common.exception.NotFoundException;
+import finalmission.reservation.intrastructure.client.exception.MailException;
+import finalmission.reservation.intrastructure.client.exception.MailInternalServerException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -15,6 +17,28 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ProblemDetail handleNotFoundException(final NotFoundException ex, final WebRequest request) {
         log.warn("BusinessException ({}): {} at {}", ex.getClass().getSimpleName(), ex.getMessage(), getPath(request));
+        return createProblemDetail(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getClass().getSimpleName(),
+                ex.getMessage());
+    }
+
+    @ExceptionHandler(MailInternalServerException.class)
+    public ProblemDetail handleMailInternalServerException(final MailInternalServerException ex,
+                                                           final WebRequest request) {
+        log.warn("MailInternalServerException ({}): {} at {}", ex.getClass().getSimpleName(), ex.getMessage(),
+                getPath(request));
+        return createProblemDetail(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ex.getClass().getSimpleName(),
+                ex.getMessage());
+    }
+
+    @ExceptionHandler(MailException.class)
+    public ProblemDetail handleMailException(final MailException ex,
+                                             final WebRequest request) {
+        log.warn("MailException ({}): {} at {}", ex.getClass().getSimpleName(), ex.getMessage(),
+                getPath(request));
         return createProblemDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 ex.getClass().getSimpleName(),
