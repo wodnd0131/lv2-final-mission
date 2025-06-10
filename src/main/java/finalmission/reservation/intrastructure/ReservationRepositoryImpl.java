@@ -1,5 +1,6 @@
 package finalmission.reservation.intrastructure;
 
+import finalmission.reservation.domain.Reservation;
 import finalmission.reservation.domain.ReservationRepository;
 import finalmission.reservation.ui.dto.ReservationResponse;
 import java.util.List;
@@ -11,6 +12,11 @@ import org.springframework.stereotype.Repository;
 public class ReservationRepositoryImpl implements ReservationRepository {
 
     private final JpaReservationRepository reservationRepository;
+
+    @Override
+    public Reservation save(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
 
     @Override
     public List<ReservationResponse> getAll() {

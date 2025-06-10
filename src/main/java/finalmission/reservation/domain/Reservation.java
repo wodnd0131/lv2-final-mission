@@ -42,4 +42,22 @@ public class Reservation {
     @JoinColumn(name = "crew_id")
     private Member crew;
 
+    private Reservation(LocalDate date,
+                        LocalTime time,
+                        ReservationState state,
+                        Member coach,
+                        Member crew) {
+        this.date = date;
+        this.time = time;
+        this.state = state;
+        this.coach = coach;
+        this.crew = crew;
+    }
+
+    public static Reservation from(LocalDate date,
+                                   LocalTime time,
+                                   Member coach,
+                                   Member crew) {
+        return new Reservation(date, time, ReservationState.WAITING, coach, crew);
+    }
 }

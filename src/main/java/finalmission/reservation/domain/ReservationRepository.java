@@ -6,4 +6,6 @@ import java.util.List;
 public interface ReservationRepository {
 
     List<ReservationResponse> getAll();
+
+    Reservation save(Reservation reservation);
 }
