@@ -15,7 +15,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Member getById(Long id) {
         return memberRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(Member.class.getSimpleName())
+                () -> new NotFoundException(Member.class.getSimpleName(), id)
         );
     }
 }

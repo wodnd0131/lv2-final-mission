@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/")
+@RequestMapping(ReservationController.BASE_PATH)
 public class ReservationController {
+
+    public static final String BASE_PATH = "/reservation";
 
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository;
