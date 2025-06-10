@@ -8,6 +8,9 @@ import finalmission.reservation.intrastructure.client.exception.MailInternalServ
 import finalmission.reservation.intrastructure.client.exception.MailNetworkException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,14 +44,35 @@ public class SendGridMailClient implements MailClient {
     @Override
     public void send(ReservationApproval reservationApproval) {
         //todo reservationApproval 파싱
+        Map<String, Object> request = extractedRequest(reservationApproval.email());
+
         executeWithExceptionHandling(
                 () -> restClient.post()
                         .uri(sendPath)
-                        .body(reservationApproval)
+                        .body(request)
                         .retrieve()
                         .onStatus(HttpStatusCode::isError, this::handleResponseError)
                         .toBodilessEntity()
         );
+    }
+
+    private Map<String, Object> extractedRequest(String crewEmail) {
+        List<Map<String, String>> tos = List.of(Map.of("email", crewEmail));
+
+        List<Map<String, Object>> personalizations
+                = List.of(Map.of("to", tos, "subject", "원오원 예약이 완료되었습니다!"));
+
+        Map<String, String> from = Map.of("email", "wodnd0131@mju.ac.kr");
+//        Map<String, String> from = Map.of("email", from);
+
+        Map<String, String> content = Map.of("type", "text/plain", "value", "원오원 예약이 완료되었습니다!");
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("personalizations", personalizations);
+        request.put("from", from);
+        request.put("content", content);
+
+        return request;
     }
 
     private <T> void executeWithExceptionHandling(Supplier<T> operation) {
