@@ -2,7 +2,7 @@ package finalmission.reservation.ui;
 
 import finalmission.reservation.domain.Reservation;
 import finalmission.reservation.domain.ReservationState;
-import finalmission.reservation.intrastructure.JpaReservationRepository;
+import finalmission.reservation.intrastructure.repository.JpaReservationRepository;
 import finalmission.reservation.ui.dto.ReservationRequest;
 import finalmission.reservation.ui.dto.ReservationUpdateRequest;
 import io.restassured.RestAssured;

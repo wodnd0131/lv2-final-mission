@@ -1,8 +1,10 @@
 package finalmission.reservation.ui;
 
 import finalmission.reservation.application.ReservationCommandService;
+import finalmission.reservation.domain.MailClient;
 import finalmission.reservation.domain.Reservation;
 import finalmission.reservation.domain.ReservationRepository;
+import finalmission.reservation.domain.vo.ReservationApproval;
 import finalmission.reservation.ui.dto.ReservationRequest;
 import finalmission.reservation.ui.dto.ReservationResponse;
 import finalmission.reservation.ui.dto.ReservationUpdateRequest;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +33,8 @@ public class ReservationController {
     private final ReservationRepository reservationRepository;
 
     private final ReservationCommandService reservationCommandService;
+
+    private final MailClient mailClient;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -72,5 +77,13 @@ public class ReservationController {
     @Operation(summary = "코치의 모든 예약 조회")
     public List<ReservationResponse> getAllByCoach(@PathVariable Long id) {
         return reservationRepository.getAllByCoach(id);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "예약 승인")
+    public void approval(@PathVariable Long id) {
+        ReservationApproval approval = reservationCommandService.approval(id);
+        mailClient.send(approval);
     }
 }

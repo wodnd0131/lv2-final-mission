@@ -70,6 +70,10 @@ public class Reservation {
         this.state = ReservationState.CANCEL;
     }
 
+    public void approval() {
+        this.state = ReservationState.APPROVAL;
+    }
+
     public void updateByCrew(LocalDate date, LocalTime time, Member coach) {
         this.date = date;
         this.time = time;

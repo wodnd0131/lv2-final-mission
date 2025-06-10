@@ -23,6 +23,9 @@ public class Member {
     private String name;
 
     @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 }

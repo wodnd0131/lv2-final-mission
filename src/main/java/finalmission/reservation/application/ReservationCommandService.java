@@ -4,6 +4,7 @@ import finalmission.member.domain.Member;
 import finalmission.member.domain.MemberRepository;
 import finalmission.reservation.domain.Reservation;
 import finalmission.reservation.domain.ReservationRepository;
+import finalmission.reservation.domain.vo.ReservationApproval;
 import finalmission.reservation.ui.dto.ReservationRequest;
 import finalmission.reservation.ui.dto.ReservationUpdateRequest;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,12 @@ public class ReservationCommandService {
     public void cancel(Long id) {
         Reservation reservation = reservationRepository.getById(id);
         reservation.cancel();
+    }
+
+    @Transactional
+    public ReservationApproval approval(Long id) {
+        Reservation reservation = reservationRepository.getById(id);
+        reservation.approval();
+        return ReservationApproval.of(reservation);
     }
 }

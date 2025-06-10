@@ -1,4 +1,4 @@
-package finalmission.reservation.intrastructure;
+package finalmission.reservation.intrastructure.repository;
 
 import finalmission.common.exception.NotFoundException;
 import finalmission.reservation.domain.Reservation;

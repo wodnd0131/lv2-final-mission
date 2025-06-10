@@ -18,14 +18,15 @@ spring:
 
 jwt:
   secret: SecretKeyForMong2
-sendgrid:
-  key: SG.G9XLDCsNQAWM9AvrTJ5Rsw.NajanIBQ4ELJTEOI4GnrEu6WrL5tWoOlLAEoTONAftg
-  from: wodnd0131@mju.ac.kr
 
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    operationsSorter: method
+sendgrid:
+  authentication: for-test-auth
+  render:
+    from: for-test-email
+  url:
+    base: for-test-url
+    send: for-test-path
+  timeout:
+    connect: 3
+    read: 10
 

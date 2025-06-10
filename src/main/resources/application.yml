@@ -18,9 +18,17 @@ spring:
 
 jwt:
   secret: SecretKeyForMong2
+
 sendgrid:
-  key: SG.G9XLDCsNQAWM9AvrTJ5Rsw.NajanIBQ4ELJTEOI4GnrEu6WrL5tWoOlLAEoTONAftg
-  from: wodnd0131@mju.ac.kr
+  authentication: Bearer SG.G9XLDCsNQAWM9AvrTJ5Rsw.NajanIBQ4ELJTEOI4GnrEu6WrL5tWoOlLAEoTONAftg
+  timeout:
+    connect: 3
+    read: 10
+  url:
+    base: https://api.sendgrid.com/v3
+    send: /mail/send
+  render:
+    from: wodnd0131@mju.ac.kr
 
 springdoc:
   api-docs:
