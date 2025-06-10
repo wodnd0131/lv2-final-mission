@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface ReservationRepository {
 
+    Reservation getById(Long id);
+
     List<ReservationResponse> getAll();
 
     Reservation save(Reservation reservation);

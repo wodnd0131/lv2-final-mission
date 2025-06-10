@@ -60,4 +60,14 @@ public class Reservation {
                                    Member crew) {
         return new Reservation(date, time, ReservationState.WAITING, coach, crew);
     }
+
+    public void cancel() {
+        this.state = ReservationState.CANCEL;
+    }
+
+    public void updateByCrew(LocalDate date, LocalTime time, Member coach) {
+        this.date = date;
+        this.time = time;
+        this.coach = coach;
+    }
 }

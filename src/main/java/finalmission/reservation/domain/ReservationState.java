@@ -1,5 +1,5 @@
 package finalmission.reservation.domain;
 
 public enum ReservationState {
-    WAITING, APPROVAL, REFUSAL
+    WAITING, APPROVAL, CANCEL
 }
