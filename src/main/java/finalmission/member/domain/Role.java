@@ -1,4 +1,4 @@
-package finalmission.memeber.domain;
+package finalmission.member.domain;
 
 public enum Role {
     COACH, CREW
