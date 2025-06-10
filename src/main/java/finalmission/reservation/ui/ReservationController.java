@@ -59,4 +59,18 @@ public class ReservationController {
     public void delete(@PathVariable Long id) {
         reservationCommandService.cancel(id);
     }
+
+    @GetMapping("/crews/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "크루의 모든 예약 조회")
+    public List<ReservationResponse> getAllByCrew(@PathVariable Long id) {
+        return reservationRepository.getAllByCrew(id);
+    }
+
+    @GetMapping("/coach/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary = "코치의 모든 예약 조회")
+    public List<ReservationResponse> getAllByCoach(@PathVariable Long id) {
+        return reservationRepository.getAllByCoach(id);
+    }
 }

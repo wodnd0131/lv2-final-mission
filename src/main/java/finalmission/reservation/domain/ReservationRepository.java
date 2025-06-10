@@ -10,4 +10,8 @@ public interface ReservationRepository {
     List<ReservationResponse> getAll();
 
     Reservation save(Reservation reservation);
+
+    List<ReservationResponse> getAllByCrew(Long id);
+
+    List<ReservationResponse> getAllByCoach(Long id);
 }

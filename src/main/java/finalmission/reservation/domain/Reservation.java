@@ -1,5 +1,10 @@
 package finalmission.reservation.domain;
 
+import static jakarta.persistence.CascadeType.DETACH;
+import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.CascadeType.REFRESH;
+
 import finalmission.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,11 +39,11 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationState state;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = {PERSIST, DETACH, REFRESH, MERGE})
     @JoinColumn(name = "coach_id")
     private Member coach;
 
-    @ManyToOne
+    @ManyToOne(optional = false, cascade = {PERSIST, DETACH, REFRESH, MERGE})
     @JoinColumn(name = "crew_id")
     private Member crew;
 

@@ -22,6 +22,22 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
+    public List<ReservationResponse> getAllByCrew(Long id) {
+        return reservationRepository.findAllByCrew_Id(id)
+                .stream()
+                .map(ReservationResponse::of)
+                .toList();
+    }
+
+    @Override
+    public List<ReservationResponse> getAllByCoach(Long id) {
+        return reservationRepository.findAllByCoach_Id(id)
+                .stream()
+                .map(ReservationResponse::of)
+                .toList();
+    }
+
+    @Override
     public List<ReservationResponse> getAll() {
         return reservationRepository.findAll()
                 .stream()
