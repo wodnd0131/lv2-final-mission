@@ -17,7 +17,8 @@ spring:
     password:
 
 jwt:
-  secret: SecretKeyForMong2
+  secret-key: SecretKeyForMong2SecretKeyForMong2
+  expire-length: 36000000
 
 sendgrid:
   authentication: Bearer SG.G9XLDCsNQAWM9AvrTJ5Rsw.NajanIBQ4ELJTEOI4GnrEu6WrL5tWoOlLAEoTONAftg
