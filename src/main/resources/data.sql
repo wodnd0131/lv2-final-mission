@@ -1,5 +1,5 @@
 INSERT INTO member (name, email, role)
-VALUES ('브라운', 'wddy2001@gmail.com', 'COACH'),
+VALUES ('브라운', 'brown@gmail.com', 'COACH'),
        ('몽이', 'wddy2001@gmail.com', 'CREW');
 
 INSERT INTO reservation (date, time, state, coach_id, crew_id)
