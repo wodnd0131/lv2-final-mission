@@ -6,6 +6,7 @@ spring:
         format_sql: true
         ddl-auto: create-drop
     defer-datasource-initialization: true
+    open-in-view: false
   h2:
     console:
       enabled: true
@@ -21,7 +22,7 @@ jwt:
   expire-length: 36000000
 
 sendgrid:
-  authentication: Bearer SG.G9XLDCsNQAWM9AvrTJ5Rsw.NajanIBQ4ELJTEOI4GnrEu6WrL5tWoOlLAEoTONAftg
+  authentication: Bearer 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
   timeout:
     connect: 3
     read: 10
@@ -29,7 +30,7 @@ sendgrid:
     base: https://api.sendgrid.com/v3
     send: /mail/send
   render:
-    from: wodnd0131@mju.ac.kr
+    from: wodnd0131@naver.com
 
 springdoc:
   api-docs:
