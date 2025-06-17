@@ -44,4 +44,9 @@ public class ReservationCommandService {
         reservation.approval();
         return ReservationApproval.of(reservation);
     }
+
+    public void waiting(Long id) {
+        Reservation reservation = reservationRepository.getById(id);
+        reservation.waiting();
+    }
 }

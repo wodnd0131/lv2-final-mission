@@ -42,7 +42,12 @@ public class CoachReservationController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "예약 승인")
     public void approval(@PathVariable Long id) {
-        ReservationApproval approval = reservationCommandService.approval(id);
-        mailClient.send(approval);
+        try {
+            ReservationApproval approval = reservationCommandService.approval(id);
+            mailClient.send(approval);
+        } catch (Exception e) {
+            reservationCommandService.waiting(id);
+            throw e;
+        }
     }
 }
