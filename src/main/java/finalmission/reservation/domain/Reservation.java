@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -63,7 +64,14 @@ public class Reservation {
                                    LocalTime time,
                                    Member coach,
                                    Member crew) {
+        validate(LocalDateTime.of(date, time));
         return new Reservation(date, time, ReservationState.WAITING, coach, crew);
+    }
+
+    private static void validate(LocalDateTime dateTime) {
+        if (LocalDateTime.now().isAfter(dateTime)) {
+            throw new IllegalArgumentException("[ERROR] 잘못된 예약 시간입니다.");
+        }
     }
 
     public void cancel() {
@@ -72,6 +80,10 @@ public class Reservation {
 
     public void approval() {
         this.state = ReservationState.APPROVAL;
+    }
+
+    public void waiting() {
+        this.state = ReservationState.WAITING;
     }
 
     public void updateByCrew(LocalDate date, LocalTime time, Member coach) {
