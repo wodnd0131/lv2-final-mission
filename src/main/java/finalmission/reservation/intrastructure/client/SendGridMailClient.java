@@ -29,7 +29,7 @@ public class SendGridMailClient implements MailClient {
     private final RestClient restClient;
     private final ObjectMapper mapper;
     private final String sendPath;
-    private final String from;
+    private final String emailFrom;
 
     public SendGridMailClient(@Qualifier("sendgridMailClient") RestClient restClient,
                               @Value("${sendgrid.url.send}") String sendPath,
@@ -38,12 +38,11 @@ public class SendGridMailClient implements MailClient {
         this.restClient = restClient;
         this.mapper = mapper;
         this.sendPath = sendPath;
-        this.from = from;
+        this.emailFrom = from;
     }
 
     @Override
     public void send(ReservationApproval reservationApproval) {
-        //todo reservationApproval 파싱
         Map<String, Object> request = extractedRequest(reservationApproval.email());
 
         executeWithExceptionHandling(
@@ -62,10 +61,11 @@ public class SendGridMailClient implements MailClient {
         List<Map<String, Object>> personalizations
                 = List.of(Map.of("to", tos, "subject", "원오원 예약이 완료되었습니다!"));
 
-        Map<String, String> from = Map.of("email", "wodnd0131@mju.ac.kr");
-//        Map<String, String> from = Map.of("email", from);
+        Map<String, String> from = Map.of("email", emailFrom);
 
-        Map<String, String> content = Map.of("type", "text/plain", "value", "원오원 예약이 완료되었습니다!");
+        List<Map<String, String>> content = List.of(
+                Map.of("type", "text/plain", "value", "원오원 예약이 완료되었습니다!")
+        );
 
         Map<String, Object> request = new HashMap<>();
         request.put("personalizations", personalizations);
