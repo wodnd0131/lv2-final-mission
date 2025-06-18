@@ -75,10 +75,16 @@ public class Reservation {
     }
 
     public void cancel() {
+        if (this.state == ReservationState.CANCEL) {
+            throw new IllegalArgumentException("[ERROR] 이미 취소된 예약입니다. : " + id);
+        }
         this.state = ReservationState.CANCEL;
     }
 
     public void approval() {
+        if (this.state == ReservationState.APPROVAL) {
+            throw new IllegalArgumentException("[ERROR] 이미 승인된 예약입니다. : " + id);
+        }
         this.state = ReservationState.APPROVAL;
     }
 

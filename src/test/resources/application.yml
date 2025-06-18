@@ -17,10 +17,11 @@ spring:
     password:
 
 jwt:
-  secret: SecretKeyForMong2
-
+  secret-key: SecretKeyForMong2SecretKeyForMong2
+  expire-length: 36000000
+  
 sendgrid:
-  authentication: for-test-auth
+  authorization: for-test-auth
   render:
     from: for-test-email
   url:

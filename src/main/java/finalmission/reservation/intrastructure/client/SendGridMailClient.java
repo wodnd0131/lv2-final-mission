@@ -3,11 +3,13 @@ package finalmission.reservation.intrastructure.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import finalmission.reservation.domain.MailClient;
 import finalmission.reservation.domain.vo.ReservationApproval;
+import finalmission.reservation.intrastructure.client.dto.MailErrorResponses;
 import finalmission.reservation.intrastructure.client.exception.MailException;
 import finalmission.reservation.intrastructure.client.exception.MailInternalServerException;
 import finalmission.reservation.intrastructure.client.exception.MailNetworkException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +73,6 @@ public class SendGridMailClient implements MailClient {
         request.put("personalizations", personalizations);
         request.put("from", from);
         request.put("content", content);
-
         return request;
     }
 
@@ -91,15 +92,18 @@ public class SendGridMailClient implements MailClient {
 
     private void handleResponseError(final HttpRequest request, final ClientHttpResponse response) throws IOException {
         InputStream inputStream = response.getBody();
-        MailErrorResponse errorResponse = mapper.readValue(inputStream, MailErrorResponse.class);
 
-        throw new MailException(response.getStatusCode().toString(), errorResponse.message);
-    }
+        String responseBody = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
-    private record MailErrorResponse(
-            String message,
-            String field
-    ) {
+        if (responseBody.trim().isEmpty()) {
+            throw new MailException(
+                    response.getStatusCode().toString(),
+                    "응답 body가 비어있습니다. HTTP 상태: " + response.getStatusCode()
+            );
+        }
 
+        MailErrorResponses errorResponse = mapper.readValue(responseBody, MailErrorResponses.class);
+
+        throw new MailException(response.getStatusCode().toString(), errorResponse.errors());
     }
 }

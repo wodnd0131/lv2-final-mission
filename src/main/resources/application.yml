@@ -22,7 +22,7 @@ jwt:
   expire-length: 36000000
 
 sendgrid:
-  authentication: Bearer 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
+  authorization: Bearer SecretKeyForMong2SecretKeyForMong2
   timeout:
     connect: 3
     read: 10

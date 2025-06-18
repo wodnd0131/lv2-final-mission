@@ -15,7 +15,7 @@ public class RestClientConfig {
     @Qualifier("sendgridMailClient")
     public RestClient sendgridMailClient(
             @Value("${sendgrid.url.base}") String url,
-            @Value("${sendgrid.authentication}") String auth,
+            @Value("${sendgrid.authorization}") String auth,
             @Value("${sendgrid.timeout.connect}") int connectTimeout,
             @Value("${sendgrid.timeout.read}") int readTimeout
     ) {
@@ -23,7 +23,7 @@ public class RestClientConfig {
                 .baseUrl(url)
                 .requestFactory(createRequestFactory(connectTimeout, readTimeout))
                 .defaultHeader("Content-Type", "application/json")
-                .defaultHeader("Authentication", auth)
+                .defaultHeader("Authorization", auth)
                 .build();
     }
 

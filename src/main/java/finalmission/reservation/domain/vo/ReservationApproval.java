@@ -15,7 +15,7 @@ public record ReservationApproval(LocalDate date,
                 reservation.getDate(),
                 reservation.getTime(),
                 reservation.getCrew().getName(),
-                reservation.getCrew().getName()
+                reservation.getCrew().getEmail()
         );
     }
 }
