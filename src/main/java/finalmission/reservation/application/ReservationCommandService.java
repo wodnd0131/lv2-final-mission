@@ -26,16 +26,16 @@ public class ReservationCommandService {
     }
 
     @Transactional
-    public void update(ReservationUpdateRequest request) {
-        Reservation reservation = reservationRepository.getById(request.id());
+    public void updateByCrew(ReservationUpdateRequest request, Long id) {
+        Reservation reservation = reservationRepository.getByIdAndCrewId(request.id(), id);
         Member coach = memberRepository.getById(request.coachId());
         reservation.updateByCrew(request.date(), request.time(), coach);
     }
 
     @Transactional
-    public void cancel(Long id) {
-        Reservation reservation = reservationRepository.getById(id);
-        reservation.cancel();
+    public void cancelByCrew(Long reservationId, Long id) {
+        Reservation reservation = reservationRepository.getByIdAndCrewId(reservationId, id);
+        reservation.cancelByCrew();
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class ReservationCommandService {
         reservation.approval();
         return ReservationApproval.of(reservation);
     }
-    
+
     @Transactional
     public void waiting(Long id) {
         Reservation reservation = reservationRepository.getById(id);

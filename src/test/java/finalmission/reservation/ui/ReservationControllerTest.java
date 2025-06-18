@@ -69,15 +69,19 @@ class ReservationControllerTest {
 
     @Test
     @DisplayName("예약 수정")
-    void test_update() {
-        long id = 1L;
+    void test_updateByCrew() {
+        long id = 2L;
         LocalTime givenTime = LocalTime.MIN;
         ReservationUpdateRequest given
                 = new ReservationUpdateRequest(id, LocalDate.now().plusDays(1), givenTime, 1L);
         Reservation past = reservationRepository.findById(id).get();
 
+        Member member = new Member(id, "몽이", "wddy2001@gmail.com", Role.CREW);
+        String token = jwtTokenProvider.createToken(member);
+
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
+                .cookies("token", token)
                 .body(given)
                 .when().put(ReservationController.BASE_PATH)
                 .then().log().all()
@@ -92,14 +96,18 @@ class ReservationControllerTest {
 
     @Test
     @DisplayName("예약 삭제")
-    void test_cancel() {
-        long id = 1L;
+    void test_cancelByCrew() {
+        long id = 2L;
         Reservation past = reservationRepository.findById(id).get();
         Assertions.assertThat(past.getState()).isEqualTo(ReservationState.WAITING);
 
+        Member member = new Member(id, "몽이", "wddy2001@gmail.com", Role.CREW);
+        String token = jwtTokenProvider.createToken(member);
+
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .when().delete(ReservationController.BASE_PATH + "/1")
+                .cookies("token", token)
+                .when().delete(ReservationController.BASE_PATH + "/2")
                 .then().log().all()
                 .statusCode(HttpStatus.NO_CONTENT.value());
 

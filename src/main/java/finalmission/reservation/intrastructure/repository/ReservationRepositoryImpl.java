@@ -22,6 +22,13 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
+    public Reservation getByIdAndCrewId(Long id, Long crewId) {
+        return reservationRepository.getByIdAndCrew_Id(id, crewId).orElseThrow(
+                () -> new NotFoundException(Reservation.class.getSimpleName(), "id:" + id + " crewId:" + crewId)
+        );
+    }
+
+    @Override
     public List<ReservationResponse> getAllByCrew(Long id) {
         return reservationRepository.findAllByCrew_Id(id)
                 .stream()

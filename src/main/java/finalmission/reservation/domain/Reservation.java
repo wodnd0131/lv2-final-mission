@@ -74,7 +74,8 @@ public class Reservation {
         }
     }
 
-    public void cancel() {
+    public void cancelByCrew() {
+        validateStateAlreadyApproval();
         if (this.state == ReservationState.CANCEL) {
             throw new IllegalArgumentException("[ERROR] 이미 취소된 예약입니다. : " + id);
         }
@@ -82,19 +83,25 @@ public class Reservation {
     }
 
     public void approval() {
-        if (this.state == ReservationState.APPROVAL) {
-            throw new IllegalArgumentException("[ERROR] 이미 승인된 예약입니다. : " + id);
-        }
+        validateStateAlreadyApproval();
         this.state = ReservationState.APPROVAL;
     }
+
 
     public void waiting() {
         this.state = ReservationState.WAITING;
     }
 
     public void updateByCrew(LocalDate date, LocalTime time, Member coach) {
+        validateStateAlreadyApproval();
         this.date = date;
         this.time = time;
         this.coach = coach;
+    }
+
+    private void validateStateAlreadyApproval() {
+        if (this.state == ReservationState.APPROVAL) {
+            throw new IllegalArgumentException("[ERROR] 이미 승인된 예약입니다. : " + id);
+        }
     }
 }

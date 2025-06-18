@@ -14,4 +14,6 @@ public interface ReservationRepository {
     List<ReservationResponse> getAllByCrew(Long id);
 
     List<ReservationResponse> getAllByCoach(Long id);
+
+    Reservation getByIdAndCrewId(Long id, Long id1);
 }

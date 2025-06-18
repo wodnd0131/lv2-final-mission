@@ -50,16 +50,17 @@ public class ReservationController {
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "예약 수정")
-    public void update(@RequestBody ReservationUpdateRequest request) {
-        reservationCommandService.update(request);
+    public void updateByCrew(@AuthenticationPrincipal MemberInfo memberInfo,
+                             @RequestBody ReservationUpdateRequest request) {
+        reservationCommandService.updateByCrew(request, memberInfo.id());
     }
 
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "예약 삭제")
-    public void delete(@PathVariable Long id) {
-        reservationCommandService.cancel(id);
+    public void cancelByCrew(@AuthenticationPrincipal MemberInfo memberInfo, @PathVariable Long id) {
+        reservationCommandService.cancelByCrew(id, memberInfo.id());
     }
 
     @GetMapping("/crews")
