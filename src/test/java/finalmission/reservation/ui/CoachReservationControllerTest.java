@@ -14,8 +14,11 @@ import finalmission.reservation.domain.Reservation;
 import finalmission.reservation.domain.ReservationState;
 import finalmission.reservation.intrastructure.client.exception.MailException;
 import finalmission.reservation.intrastructure.repository.JpaReservationRepository;
+import finalmission.reservation.ui.dto.ReservationUpdateRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
@@ -42,6 +45,54 @@ class CoachReservationControllerTest {
 
     @MockitoBean
     private MailClient mailClient;
+
+    @Test
+    @DisplayName("예약 수정")
+    void test_update() {
+        long id = 1L;
+        LocalTime givenTime = LocalTime.MIN;
+        ReservationUpdateRequest given
+                = new ReservationUpdateRequest(id, LocalDate.now().plusDays(1), givenTime, 1L);
+        Reservation past = reservationRepository.findById(id).get();
+
+        Member member = new Member(id, "브라운", "brown@gmail.com", Role.COACH);
+        String token = jwtTokenProvider.createToken(member);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .cookies("token", token)
+                .body(given)
+                .when().put(CoachReservationController.BASE_PATH + "/reservations")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        Reservation now = reservationRepository.findById(id).get();
+
+        Assertions.assertThat(now.getTime()).isEqualTo(givenTime);
+        Assertions.assertThat(now.getTime()).isNotEqualTo(past.getTime());
+
+    }
+
+    @Test
+    @DisplayName("예약 삭제")
+    void test_cancel() {
+        long id = 1L;
+        Reservation past = reservationRepository.findById(id).get();
+        Assertions.assertThat(past.getState()).isEqualTo(ReservationState.WAITING);
+
+        Member member = new Member(id, "브라운", "brown@gmail.com", Role.COACH);
+        String token = jwtTokenProvider.createToken(member);
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .cookies("token", token)
+                .when().delete(CoachReservationController.BASE_PATH + "/reservations/1")
+                .then().log().all()
+                .statusCode(HttpStatus.NO_CONTENT.value());
+
+        Reservation now = reservationRepository.findById(id).get();
+        Assertions.assertThat(now.getState()).isEqualTo(ReservationState.CANCEL);
+    }
 
     @Test
     @DisplayName("코치의 모든 예약 조회")

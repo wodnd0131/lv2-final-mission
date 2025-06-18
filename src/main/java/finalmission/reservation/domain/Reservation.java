@@ -99,6 +99,18 @@ public class Reservation {
         this.coach = coach;
     }
 
+    public void update(LocalDate date, LocalTime time) {
+        this.date = date;
+        this.time = time;
+    }
+
+    public void cancel() {
+        if (this.state == ReservationState.CANCEL) {
+            throw new IllegalArgumentException("[ERROR] 이미 취소된 예약입니다. : " + id);
+        }
+        this.state = ReservationState.CANCEL;
+    }
+
     private void validateStateAlreadyApproval() {
         if (this.state == ReservationState.APPROVAL) {
             throw new IllegalArgumentException("[ERROR] 이미 승인된 예약입니다. : " + id);

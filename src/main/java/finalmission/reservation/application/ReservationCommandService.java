@@ -28,7 +28,7 @@ public class ReservationCommandService {
     @Transactional
     public void updateByCrew(ReservationUpdateRequest request, Long id) {
         Reservation reservation = reservationRepository.getByIdAndCrewId(request.id(), id);
-        Member coach = memberRepository.getById(request.coachId());
+        Member coach = memberRepository.getById(request.memberId());
         reservation.updateByCrew(request.date(), request.time(), coach);
     }
 
@@ -49,5 +49,17 @@ public class ReservationCommandService {
     public void waiting(Long id) {
         Reservation reservation = reservationRepository.getById(id);
         reservation.waiting();
+    }
+
+    @Transactional
+    public void update(ReservationUpdateRequest request) {
+        Reservation reservation = reservationRepository.getById(request.id());
+        reservation.update(request.date(), request.time());
+    }
+
+    @Transactional
+    public void cancel(Long id) {
+        Reservation reservation = reservationRepository.getById(id);
+        reservation.cancel();
     }
 }

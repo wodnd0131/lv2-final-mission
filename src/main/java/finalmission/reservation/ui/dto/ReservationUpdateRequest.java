@@ -7,7 +7,7 @@ public record ReservationUpdateRequest(
         Long id,
         LocalDate date,
         LocalTime time,
-        Long coachId
+        Long memberId
 ) {
 
 }
